@@ -1,10 +1,8 @@
 from DLPPrinter.dlpMotorController import DLPMotorController
 from DLPPrinter.dlpProjectorController import DLPProjectorController
-from DLPPrinter import dlpSuperJobFile
 from PySide2.QtGui import QPixmap
 from PySide2.QtCore import QObject, Signal, Slot, QTimer, QFile, QFileInfo, QDir, QIODevice, QJsonDocument, QTime, QDate, QDateTime
 from pathlib import Path
-import time
 
 DEBUG_MODE_ON = False
 
@@ -524,21 +522,6 @@ class DLPMainController(QObject):
         self.incremental_step_amplitude = step
         if not self.is_super_job_loaded:
             self.etc_updated_signal.emit(self.evaluate_time_estimate())
-
-    @Slot(int)
-    def set_grayscale_alpha(self, a):
-        self.grayscale_alpha = a
-        # self.etc_updated_signal.emit(self.evaluate_time_estimate())
-
-    @Slot(int)
-    def set_grayscale_beta(self, b):
-        self.grayscale_beta = b
-        # self.etc_updated_signal.emit(self.evaluate_time_estimate())
-
-    @Slot(int)
-    def set_grayscale_gamma(self, c):
-        self.grayscale_gamma = c
-        # self.etc_updated_signal.emit(self.evaluate_time_estimate())
 
     @Slot(str)
     def print_to_console(self, text):

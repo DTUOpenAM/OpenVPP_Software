@@ -5,7 +5,6 @@ from PySide2.QtCore import QLocale
 from PySide2.QtGui import QCloseEvent
 from PySide2.QtCore import Signal, Slot, QFile, QIODevice, QJsonDocument
 from DLPPrinter.dlpGUI import DLPGUI
-from MetalPrinter.metalGUI import MetalGUI
 from pathlib import Path
 
 

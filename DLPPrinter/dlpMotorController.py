@@ -2,7 +2,7 @@ from PySide2.QtCore import QObject, Signal, Slot, QTimer, QRunnable, QThreadPool
 import sys
 from serial.tools import list_ports
 from enum import Enum
-from Motors import clearpathSDSK, nanostage, clearpathSCSK, arduino_nema17
+from Motors import arduino_nema17
 
 class DLPMotorController(QObject):
 
@@ -25,17 +25,7 @@ class DLPMotorController(QObject):
             self.platform_direction = -1
         else:
             self.platform_direction = 1
-
-        if motor_setup == 'ClearpathSDSK':
-            self.motor_instance = clearpathSDSK.ClearpathSDSK()
-        elif motor_setup == 'ClearpathSCSK':
-            self.motor_instance = clearpathSCSK.ClearpathSCSK(axis_orientation=-1)
-            if self.motor_instance is None:
-                self.print_text_signal.emit("Clearpath SCSK not supported: selected Clearpath SDSK")
-                self.motor_instance = clearpathSDSK.ClearpathSDSK()
-        elif motor_setup == 'Nanostage':
-            self.motor_instance = nanostage.NanoStage()
-        elif motor_setup == 'Arduino_Nema17':
+        if motor_setup == 'Arduino_Nema17':
             self.motor_instance = arduino_nema17.Arduino_Nema17()
         else:
             print("Error: an invalid motor was selected!")

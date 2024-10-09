@@ -282,8 +282,6 @@ class DLPSlicerGUI(QWidget):
         samples_per_pixel_row = 3
         slice_button_row = 4
         slices_label_row = 5
-        # slice_interrupt_row = slice_button_row
-
         slice_layout = QGridLayout(self.__slicer_options_widget)
         slice_layout.addWidget(thickness_label, thickness_label_row, 0)
         slice_layout.addWidget(thickness_edit, thickness_label_row, 1)

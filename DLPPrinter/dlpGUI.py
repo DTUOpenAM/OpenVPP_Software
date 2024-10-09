@@ -14,9 +14,9 @@ class DLPGUI(QWidget):
     def __init__(self, parent=None):
         QWidget.__init__(self, parent)
         self.parent = parent
-        self.supported_setups = ['BOTTOM-UP', 'TOP-DOWN']
-        self.supported_projectors = ['VisitechDLP9000', 'VisitechLRS4KA','LightCrafter4500']
-        self.supported_motors = ['ClearpathSDSK', 'ClearpathSCSK', 'Nanostage', 'Arduino_Nema17']
+        self.supported_setups = ['BOTTOM-UP']
+        self.supported_projectors = ['LightCrafter4500']
+        self.supported_motors = ['Arduino_Nema17']
         self.selected_setup = self.supported_setups[0]
         self.selected_projector = self.supported_projectors[0]
         self.selected_motor = self.supported_motors[0]
@@ -133,16 +133,13 @@ class DLPGUI(QWidget):
         self.__dlp_main_widget.addTab(self.__settings_widget, 'Advanced Settings')
         self.stacked_layout.addWidget(self.__dlp_main_widget)
         self.dlp_controller.save_default_parameters()
-        # self.__dlp_main_widget.move()
-        # self.desktops = QDesktopWidget()
-        # self.parent.move(self.desktops.screen(0).rect().center() - self.__dlp_main_widget.rect().center())
-        # self.__dlp_main_widget.move(QGuiApplication.desktop().screen().rect().center() - self.rect().center())
+
 
     def reset_main_widget(self):
         self.dlp_controller.close_projector()
         self.__init_main_widget__()
         self.stacked_layout.setCurrentIndex(3)
-        # self.parent.move(self.desktops.screen(0).rect().center() - self.__dlp_main_widget.rect().center())
+
 
     @Slot()
     def closeEvent(self, event: QCloseEvent):

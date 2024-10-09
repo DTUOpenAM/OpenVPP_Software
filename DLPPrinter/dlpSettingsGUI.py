@@ -3,7 +3,6 @@ from PySide2.QtWidgets import QWidget, QSizePolicy, QFileDialog, QLabel, QTableV
 from PySide2.QtGui import QGuiApplication, QPainter
 from PySide2.QtCore import Signal, Slot, QAbstractTableModel, Qt, QStringListModel
 from PySide2.QtCharts import QtCharts
-from DLPPrinter.dlpColorCalibrator import DLPColorCalibrator
 from DLPPrinter.dlpSuperJobFile import DLPSuperJobFile
 
 
@@ -14,81 +13,16 @@ class DLPSettingsGUI(QWidget):
         self.parent = parent
         self.dlp_controller = dlp_controller
         self.dlp_slicer = dlp_slicer
-        self.dlp_color_calibrator = DLPColorCalibrator()
-        self.dlp_color_calibrator.analysis_completed_signal.connect(self.update_charts)
         self.__current_super_job_group_idx = -1
         self.__current_super_job_subgroup_idx = -1
         self.data_fit_chart_view = None
         self.data_fit_chart = None
         self.main_layout = QHBoxLayout()
         self.__init_table_widget__()
-        self.__init_color_calibration_widget()
         self.__default_parameters_widget.setSizePolicy(QSizePolicy.Maximum, QSizePolicy.MinimumExpanding)
         self.main_layout.addWidget(self.__default_parameters_widget, stretch=1)
-        self.main_layout.addWidget(self.__color_calibration_widget, stretch=2)
         self.setLayout(self.main_layout)
         self.main_layout.update()
-
-    def __init_color_calibration_widget(self, parent=None):
-        self.__color_calibration_widget = QGroupBox("Color Correction Options", parent)
-        self.__color_calibration_widget.setSizePolicy(QSizePolicy.MinimumExpanding, QSizePolicy.MinimumExpanding)
-        color_calibration_layout = QVBoxLayout(self.__color_calibration_widget)
-
-        chart_widget = QWidget(self.__color_calibration_widget)
-        chart_layout = QGridLayout(chart_widget)
-        self.data_fit_chart = QtCharts.QChart()
-        self.data_fit_chart_view = QtCharts.QChartView(self.data_fit_chart)
-        self.axis_x = QtCharts.QValueAxis()
-        self.axis_x.setTitleText("Pixel Intensity")
-        self.axis_x.setRange(0, 1)
-        self.data_fit_chart.addAxis(self.axis_x, Qt.AlignBottom)
-        self.axis_y = QtCharts.QValueAxis()
-        self.axis_y.setTitleText("Voxel Height (\u03BCm)")
-        self.axis_y.setRange(0, 10)
-        self.data_fit_chart.addAxis(self.axis_y, Qt.AlignLeft)
-        chart_layout.addWidget(self.data_fit_chart_view, 0, 0, 1, 4)
-        chart_widget.setLayout(chart_layout)
-
-        buttons_widget = QWidget(self.__color_calibration_widget)
-        buttons_layout = QHBoxLayout(buttons_widget)
-        analyze_data_button = QPushButton("Analyze Data")
-        analyze_data_button.clicked.connect(self.analyze_images)
-        self.parameters_estimation_label = QLabel(f'Estimated parameters: \u03B1 = {self.dlp_color_calibrator.optimized_parameters[0]:.3f}, \u03B2 = {self.dlp_color_calibrator.optimized_parameters[1]:.3f}, \u03B3 =  {self.dlp_color_calibrator.optimized_parameters[2]:.3f}',
-                                buttons_widget)
-        buttons_layout.addWidget(analyze_data_button)
-        buttons_layout.addWidget(self.parameters_estimation_label)
-        buttons_widget.setLayout(buttons_layout)
-        color_calibration_layout.addWidget(chart_widget)
-        color_calibration_layout.addWidget(buttons_widget)
-        self.__color_calibration_widget.setLayout(color_calibration_layout)
-
-    @Slot()
-    def analyze_images(self):
-        file_names = QFileDialog.getOpenFileNames(caption='Select data', dir='../measured_data/grayscale_measured_data',
-                                                  filter="Image Files (*.asc)")
-        self.dlp_color_calibrator.analyze_data_files(file_names[0])
-
-    @Slot()
-    def update_charts(self):
-        self.data_fit_chart = QtCharts.QChart()
-        self.data_fit_chart.setAnimationOptions(QtCharts.QChart.AllAnimations)
-        self.add_series(self.data_fit_chart, "Measured Data", self.dlp_color_calibrator.input_values, self.dlp_color_calibrator.average_data)
-        self.add_series(self.data_fit_chart, "Fitted Curve", self.dlp_color_calibrator.input_values,
-                        self.dlp_color_calibrator.fitted_curve)
-        self.add_series(self.data_fit_chart, "Predicted Result", self.dlp_color_calibrator.input_values,
-                        self.dlp_color_calibrator.corrected_output_values)
-        series = self.data_fit_chart.series()
-        self.data_fit_chart.addAxis(self.axis_x, Qt.AlignBottom)
-        self.axis_y.setRange(0, self.dlp_color_calibrator.measured_thickness)
-        self.data_fit_chart.addAxis(self.axis_y, Qt.AlignLeft)
-        for s in series:
-            s.attachAxis(self.axis_x)
-            s.attachAxis(self.axis_y)
-
-        self.data_fit_chart_view.setRenderHint(QPainter.Antialiasing)
-        self.data_fit_chart_view.setChart(self.data_fit_chart)
-
-        self.parameters_estimation_label.setText(f'Estimated parameters: \u03B1 = {self.dlp_color_calibrator.optimized_parameters[0]:.3f}, \u03B2 = {self.dlp_color_calibrator.optimized_parameters[1]:.3f}, \u03B3 =  {self.dlp_color_calibrator.optimized_parameters[2]:.3f}')
 
     def add_series(self, chart, title, x, y):
         series = QtCharts.QLineSeries()

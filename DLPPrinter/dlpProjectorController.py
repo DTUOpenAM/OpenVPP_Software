@@ -4,8 +4,7 @@ from PySide2.QtGui import QPixmap, QTransform, QImage
 import sys
 from pathlib import Path
 import numpy as np
-from DLPPrinter.dlpColorCalibrator import DLPColorCalibrator
-from DLPPrinter.projectors import visitechDLP9000, visitechLRS4KA, lightCrafter4500
+from DLPPrinter.projectors import lightCrafter4500
 
 DEBUG_MODE_ON = False
 
@@ -69,21 +68,12 @@ class DLPProjectorController(QLabel):
         if self.projector_instance.stop_projector():
             self.connected = False
 
-    def show_image(self, pattern, use_grayscale=False, alpha=0, beta=0, gamma=0):
+    def show_image(self, pattern, alpha=0, beta=0, gamma=0):
         # if not self.connected:
         #     self.print_text_signal.emit("Impossible to show image: projector is not connected!")
         #     return
         loaded_image = QImage(pattern).convertToFormat(QImage.Format.Format_RGB32)
-        values = loaded_image.bits()
-        pixel_values = np.array(values).reshape(loaded_image.height(), loaded_image.width(), 4)
-        if use_grayscale:
-            thickness = DLPColorCalibrator.my_log_function(1,alpha,beta,gamma)
-            tmp, corrected_values = DLPColorCalibrator.my_color_correction(pixel_values, alpha, beta, gamma, thickness)
-            corrected_values_tr = corrected_values.copy()
-            corrected_image = QImage(corrected_values_tr, corrected_values_tr.shape[1], corrected_values_tr.shape[0], QImage.Format_RGB32)
-            self.img = QPixmap(corrected_image)
-        else:
-            self.img = QPixmap(loaded_image)
+        self.img = QPixmap(loaded_image)
         if self.horizontal_mirror:
             self.img = self.img.transformed(QTransform().scale(-1, 1))
         if self.vertical_mirror:
