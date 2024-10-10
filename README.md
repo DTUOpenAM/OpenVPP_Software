@@ -54,10 +54,17 @@ The OpenVPP software provides tools for handling the entire 3D printing process,
 
 1. Open **Anaconda Prompt** in the software installation directory.
 2. Activate the environment:
+   
    ```bash
    conda activate 3DOpenSource
-3. Run the main GUI:
+   
+4. Run the main GUI:
+
+   ```bash
    python mainGUI.py
+
+5. 
+
    
 ## Key Components
 
