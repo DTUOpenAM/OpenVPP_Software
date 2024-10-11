@@ -26,10 +26,12 @@ The OpenVPP software provides tools for handling the entire 3D printing process,
 
 1. Install [Git](https://git-scm.com/downloads).
 2. Open **Git Bash** and navigate to your desired directory:
+   
    ```bash
    cd Documents
 
-3. Clone the repository
+4. Clone the repository
+   
    ```bash
    git clone https://github.com/DTUOpenAM/OpenVPP_Software.git
 
@@ -38,15 +40,19 @@ The OpenVPP software provides tools for handling the entire 3D printing process,
 1. Install [Anaconda 64-bit](https://www.anaconda.com/products/individual).
 2. Open **Anaconda Prompt** in the installation directory.
 3. Create the environment:
+   
    ```bash
    conda env create -f environment.yaml
    
 ### Step 3: Update the Environment
 
 1. Activate the environment:
+   
    ```bash
    conda activate 3DOpenSource
-2. Update the environment
+   
+3. Update the environment
+   
    ```bash
    conda env update --file environment.yaml
 
@@ -64,6 +70,10 @@ The OpenVPP software provides tools for handling the entire 3D printing process,
    python mainGUI.py
 
 ### Main Control GUI
+
+<p align="center">
+  <img src="misc/git/software_main_picture.png" alt="Main Control GUI" width="600"/>
+</p>
 
 This tab contains the GUI for the main control of the printer. Here, you can access a variety of printer and projector options, as well as configure layer parameters:
 
