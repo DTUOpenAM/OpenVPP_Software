@@ -6,6 +6,5 @@ myenv/**
 env/**
 **/__pycache__/
 __pycache__/
-*.png
 venv/*
 **/*.asv
