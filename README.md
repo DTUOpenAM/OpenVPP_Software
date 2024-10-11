@@ -1,52 +1,129 @@
-# 3DOpenSource
+# OpenVPP Software
 
-Open-Source software for the OpenVPP system
+This repository contains Python software for the Open Architecture Vat Photopolymerization (VPP) Bottom-Up 3D printing system. The OpenVPP system is designed to offer customizable and modular control over the 3D printing process, including slicing, projector control, and motor management.
+
+## Overview
+
+The OpenVPP software provides tools for handling the entire 3D printing process, from slicing 3D models to controlling the projector and motors. This open-source project is intended for researchers and developers who need a flexible framework to work with vat photopolymerization systems.
+
+## Features
+
+- **3D Slicing**: Efficient slicing of 3D models with adjustable layer settings.
+- **Projector Control**: Interface for controlling various projectors used in photopolymerization.
+- **Motor Management**: Precision control of motors for Z-axis movement during printing.
+- **Modular Design**: Easily extend or modify components to suit specific needs.
+
+## System Requirements
+
+- **Python 3.x**
+- **Anaconda** (for environment management)
+- **C++ Compiler** (recommended: Visual Studio 2019 for external libraries)
+- **Supported OS**: Windows 64-bit
+
+## Installation
+
+### Step 1: Clone the Repository
+
+1. Install [Git](https://git-scm.com/downloads).
+2. Open **Git Bash** and navigate to your desired directory:
+   
+   ```bash
+   cd Documents
+
+4. Clone the repository
+   
+   ```bash
+   git clone https://github.com/DTUOpenAM/OpenVPP_Software.git
+
+### Step 2: Set Up the Environment
+
+1. Install [Anaconda 64-bit](https://www.anaconda.com/products/individual).
+2. Open **Anaconda Prompt** in the installation directory.
+3. Create the environment:
+   
+   ```bash
+   conda env create -f environment.yaml
+   
+### Step 3: Update the Environment
+
+1. Activate the environment:
+   
+   ```bash
+   conda activate 3DOpenSource
+   
+3. Update the environment
+   
+   ```bash
+   conda env update --file environment.yaml
+
+## Usage
+
+1. Open **Anaconda Prompt** in the software installation directory.
+2. Activate the environment:
+   
+   ```bash
+   conda activate 3DOpenSource
+   
+3. Run the main GUI:
+
+   ```bash
+   python mainGUI.py
+
+### Main Control GUI
+
+<p align="center">
+  <img src="misc/git/software_main_picture.png" alt="Main Control GUI" width="600"/>
+</p>
+
+This tab contains the GUI for the main control of the printer. Here, you can access a variety of printer and projector options, as well as configure layer parameters:
+
+- **Printer Options**
+  
+  - **Establish connection with Arduino for stage control**: Connect to the Arduino to manage the Z-axis and other stage operations.
+  - **Move building plate**: Manually move the building plate to the desired position.
+  - **Set building plate origin**: Manually adjust and set the building plate origin for accurate positioning.
+  - **Home building plate**: Automatically return the building plate to its home position.
+
+- **Projector Options**
+  
+  - **Establish connection with projector**: Connect to the projector to control exposure and image projection.
+  - **Project pattern to check focusing**: Project a pattern to ensure proper focusing and alignment of the projector.
+  - **Set projector amplitude**: Adjust the projector amplitude (currently limited to a maximum of 255 for Wintech projectors).
+
+- **Support Layer Parameters and Features Layer Parameters**
+  
+  - **Process parameters for different layers**: Configure the process parameters specific to support layers and feature layers, optimizing exposure and curing settings based on the material and layer characteristics.
 
 
-Software requirements:
+   
+## Key Components
 
-- In order to run some of the external libraries, you may need to install a c++ compiler. The c++ libraries were compiled and tested with Visual Studio 2019.
+- **dlpSlicer.py**: Handles the slicing of 3D models and preparation for layer-by-layer printing.
+- **dlpProjectorController.py**: Manages the interface with the projector for light exposure control.
+- **dlpMotorController.py**: Controls the motor responsible for Z-axis movement during printing.
+- **mainGUI.py**: Launches the main graphical interface for controlling the printing process.
 
+## How to add new projectors
 
-To get the software:
+*A new projector should implement the following interface:*
 
-- Install "Git" (https://git-scm.com/downloads)
-- open "Git Bash"
-- move to the installation directory (e.g. "cd Documents")
-- run "git clone https://github.com/DTUOpenAM/OpenVPP_Software.git" 
+- **init_projector()** -> *initialize and turn on the projector, return True if succeeds, False otherwise*
+- **stop_projector()** -> *shut down projector*
+- **set_amplitude(a)** -> *set the projector amplitude to the value of the parameter a*
 
+## How to add different motors for Z stage
 
-To update the software:
+*A new motor should implement the following interface:*
 
-- open "Git Bash"
-- move to the installation directory (e.g. "cd Documents/3DOpenSource")
-- run "git pull"
+- **get_step_length_microns()** -> *return the length of a single motor step in microns*
+- **connect_motor(serial_port)** -> *connect and activate motor, return True or False. serial_port parameter could be ignored if different connection is used*
+- **disconnect_motor()** -> *disconnect motor, return True or False*
+- **reset_motor()** -> *reset motor status, this function could be left empty, return True or False*
+- **home_motor()** -> *send building plate to home position, return True or False*
+- **move_motor(distance, feed_rate, relative_move)** -> *move building plate, relative_move is a boolean indicating if the movement is relative to the current position or absolute*
+- **move_projector(distance_mm, feed_rate_mm_min, is_relative)** -> *move projector, is_relative is a boolean indicating if the movement is relative to the current position or absolute*
 
+## Contributing
 
-To Install on win-64:
+Contributions are welcome! Please fork the repository, make your changes, and submit a pull request. Ensure that you thoroughly test your changes and document any new features.
 
-- install Anaconda 64 bits
-- open "Anaconda Prompt" in the location of the software installation
-- run "conda env create -f environment.yaml"
-
-
-To Update Anaconda environment:
-
-- open "Anaconda Prompt" in the location of the software installation
-- run "conda activate 3DOpenSource"
-- run "conda env update --file environment.yaml"
-
-
-To Run on win-64:
-
-- open "Anaconda Prompt" in the location of the software installation
-- run "conda activate 3DOpenSource"
-- run "python __main__.py", or "python __main__.py --old" for old version of the software
-
-
-To install and run using venv:
-
-- open a python terminal in the position of this project.
-- create a new venv by running "py -m venv your_name"
-- activate the environment ".\your_name\Scripts\activate"
-- run "pip install -r requirements.txt"
