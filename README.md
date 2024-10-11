@@ -58,12 +58,32 @@ The OpenVPP software provides tools for handling the entire 3D printing process,
    ```bash
    conda activate 3DOpenSource
    
-4. Run the main GUI:
+3. Run the main GUI:
 
    ```bash
    python mainGUI.py
 
-5. 
+### Main Control GUI
+
+This tab contains the GUI for the main control of the printer. Here, you can access a variety of printer and projector options, as well as configure layer parameters:
+
+- **Printer Options**
+  
+  - **Establish connection with Arduino for stage control**: Connect to the Arduino to manage the Z-axis and other stage operations.
+  - **Move building plate**: Manually move the building plate to the desired position.
+  - **Set building plate origin**: Manually adjust and set the building plate origin for accurate positioning.
+  - **Home building plate**: Automatically return the building plate to its home position.
+
+- **Projector Options**
+  
+  - **Establish connection with projector**: Connect to the projector to control exposure and image projection.
+  - **Project pattern to check focusing**: Project a pattern to ensure proper focusing and alignment of the projector.
+  - **Set projector amplitude**: Adjust the projector amplitude (currently limited to a maximum of 255 for Wintech projectors).
+
+- **Support Layer Parameters and Features Layer Parameters**
+  
+  - **Process parameters for different layers**: Configure the process parameters specific to support layers and feature layers, optimizing exposure and curing settings based on the material and layer characteristics.
+
 
    
 ## Key Components
