@@ -335,7 +335,7 @@ class DLPMainController(QObject):
             if not self.__projector_controller.set_amplitude(self.current_amplitude):
                 self.stop_printing_process()
                 return
-        self.__projector_controller.show_image(self.current_file_name, self.grayscale_correction, self.grayscale_alpha, self.grayscale_beta, self.grayscale_gamma)
+        self.__projector_controller.show_image(self.current_file_name)
         self.current_layer = self.current_layer + 1
         self.next_layer_timer.setInterval(self.current_exposure)
         self.next_layer_timer.start()

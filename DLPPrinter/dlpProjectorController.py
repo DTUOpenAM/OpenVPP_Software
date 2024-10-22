@@ -68,7 +68,7 @@ class DLPProjectorController(QLabel):
         if self.projector_instance.stop_projector():
             self.connected = False
 
-    def show_image(self, pattern, alpha=0, beta=0, gamma=0):
+    def show_image(self, pattern):
         # if not self.connected:
         #     self.print_text_signal.emit("Impossible to show image: projector is not connected!")
         #     return
