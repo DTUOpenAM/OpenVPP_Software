@@ -72,7 +72,7 @@ The OpenVPP software provides tools for handling the entire 3D printing process,
 ### Main Control GUI
 
 <p align="center">
-  <img src="misc/git/software_main_picture.png" alt="Main Control GUI" width="600"/>
+  <img src="misc_git/software_main_picture.png" alt="Main Control GUI" width="600"/>
 </p>
 
 This tab contains the GUI for the main control of the printer. Here, you can access a variety of printer and projector options, as well as configure layer parameters:
